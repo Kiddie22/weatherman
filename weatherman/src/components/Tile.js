@@ -4,7 +4,9 @@ const Tile = (props) => {
   const { day } = props;
   return (
     <>
-      <h2>{day.main.temp}</h2>
+      <h1>{day.weather[0].main}</h1>
+      <h2>{day.weather[0].description}</h2>
+      <h6>{day.dt_txt}</h6>
     </>
   );
 };
