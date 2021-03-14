@@ -5,11 +5,25 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { cities } from "../cities";
 
 const TileList = () => {
-  const [query, setQuery] = useState("galle");
+  const [query, setQuery] = useState("western province");
   const [city, setCity] = useState([]);
   const [list, setList] = useState([]);
 
   const URL = `http://api.openweathermap.org/data/2.5/forecast?q=${query}&appid=01449de77e3668d9b85822879d4b13f1&units=metric&cnt=20`;
+
+  const current = new Date();
+  const hourAsString = current.getHours();
+
+  const result = list.filter((item) => {
+    const string = item.dt_txt;
+    const time = string.substring(11, 13);
+    if (
+      hourAsString - parseInt(time) > -6 &&
+      hourAsString - parseInt(time) < 6
+    ) {
+      return item;
+    }
+  });
 
   useEffect(() => {
     fetch(URL)
@@ -41,7 +55,7 @@ const TileList = () => {
       <button onClick={() => confirmSelection()}>Confirm</button>
       <h1>{city.name}</h1>
       <SimpleGrid minChildWidth="400px" spacing={10}>
-        {list.map((day) => {
+        {result.map((day) => {
           return <Tile key={day.dt} day={day} />;
         })}
       </SimpleGrid>

@@ -5,6 +5,12 @@ const Tile = (props) => {
   const { day } = props;
   const id = day.weather[0].icon;
 
+  const string = day.dt_txt;
+  const date = string.substring(0,10);
+  const time = string.substring(11, 19);
+
+  if(time)
+
   return (
     <>
       <Container
@@ -15,15 +21,17 @@ const Tile = (props) => {
         ml="2"
         border="2px solid"
         borderColor="green.500"
+        textTransform="uppercase"
       >
         <img
           src={`http://openweathermap.org/img/wn/${id}@2x.png`}
           alt="weather icon"
         />
         <h1>{day.weather[0].main}</h1>
-        <h2>{day.weather[0].description}</h2>
+        {/* <h2>{day.weather[0].description}</h2> */}
         <h2>{`${day.main.temp}\xB0C`}</h2>
-        <h6>{day.dt_txt}</h6>
+        <h4>{date}</h4>
+        <h4>{time}</h4>
       </Container>
     </>
   );
