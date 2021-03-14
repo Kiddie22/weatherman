@@ -8,7 +8,7 @@ const TileList = () => {
   const [list, setList] = useState([]);
 
   const URL =
-    "http://api.openweathermap.org/data/2.5/forecast?q=galle&appid=01449de77e3668d9b85822879d4b13f1&units=metric";
+    "http://api.openweathermap.org/data/2.5/forecast?q=galle&appid=01449de77e3668d9b85822879d4b13f1&units=metric&cnt=20";
 
   useEffect(() => {
     fetch(URL)
@@ -24,6 +24,9 @@ const TileList = () => {
 
   return (
     <React.Fragment>
+      <select name="city" id="city">
+
+      </select>
       <h1>{city.name}</h1>
       <SimpleGrid minChildWidth="400px" spacing={10}>
         {list.map((day) => {
