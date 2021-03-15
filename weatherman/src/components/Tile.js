@@ -1,5 +1,6 @@
 import React from "react";
 import { Container } from "@chakra-ui/react";
+import { Box, VStack, StackDivider } from "@chakra-ui/react";
 
 const Tile = (props) => {
   const { day } = props;
@@ -12,31 +13,48 @@ const Tile = (props) => {
 
   if (parseInt(hour) > 12) {
     const newHour = parseInt(hour) - 12;
-    time = String(newHour) + string.substring(13,16) + " PM"; 
+    time = String(newHour) + string.substring(13, 16) + " PM";
   }
 
   if (time)
     return (
       <>
         <Container
+          w={300}
+          h={400}
           centerContent
-          color="gray.500"
+          shadow="md"
+          borderWidth="1px"
+          flex="1"
+          borderRadius="md"
+          bg="teal.600"
+          color="teal.50"
           fontWeight="semibold"
-          letterSpacing="wide"
-          ml="2"
-          border="2px solid"
-          borderColor="green.500"
           textTransform="uppercase"
         >
-          <img
-            src={`http://openweathermap.org/img/wn/${id}@2x.png`}
-            alt="weather icon"
-          />
-          <h1>{day.weather[0].main}</h1>
-          {/* <h2>{day.weather[0].description}</h2> */}
-          <h2>{`${day.main.temp}\xB0C`}</h2>
-          <h4>{date}</h4>
-          <h4>{time}</h4>
+          <VStack
+            divider={<StackDivider borderColor="gray.200" />}
+            spacing={4}
+            align="stretch"
+          >
+            <Box centerContent>
+              <img
+                src={`http://openweathermap.org/img/wn/${id}@2x.png`}
+                alt="weather icon"
+              />
+            </Box>
+            <Box centerContent>
+              {/* <h1>{day.weather[0].main}</h1> */}
+              <h1>{day.weather[0].description}</h1>
+              <h2>{`${day.main.temp}\xB0C`}</h2>
+            </Box>
+            <Box centerContent>
+              <h4>{date}</h4>
+            </Box>
+            <Box centerContent>
+              <h4>{time}</h4>
+            </Box>  
+          </VStack>
         </Container>
       </>
     );
