@@ -12,3 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#citySelect{
+  padding-left: 10px;
+  padding-top: 5px;
+}

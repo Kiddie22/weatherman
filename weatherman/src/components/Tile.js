@@ -1,6 +1,5 @@
 import React from "react";
-import { Container } from "@chakra-ui/react";
-import { Box, VStack, StackDivider } from "@chakra-ui/react";
+import { Box, Container, VStack, StackDivider } from "@chakra-ui/react";
 
 const Tile = (props) => {
   const { day } = props;
@@ -38,6 +37,7 @@ const Tile = (props) => {
             align="stretch"
           >
             <Box centerContent>
+              {/* Weather Icon */}
               <img
                 src={`http://openweathermap.org/img/wn/${id}@2x.png`}
                 alt="weather icon"
@@ -53,7 +53,7 @@ const Tile = (props) => {
             </Box>
             <Box centerContent>
               <h4>{time}</h4>
-            </Box>  
+            </Box>
           </VStack>
         </Container>
       </>

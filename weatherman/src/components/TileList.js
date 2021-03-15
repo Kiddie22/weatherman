@@ -2,12 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Tile from "./Tile";
 import { cities } from "../cities";
-import { SimpleGrid } from "@chakra-ui/react";
-import { Button, ButtonGroup } from "@chakra-ui/react";
-import { Select } from "@chakra-ui/react";
-import { Box } from "@chakra-ui/react";
-import { Stack, HStack, VStack } from "@chakra-ui/react";
-import { Divider } from "@chakra-ui/react";
+import { Box, Button, Select } from "@chakra-ui/react";
+import { HStack, VStack, SimpleGrid } from "@chakra-ui/react";
 import { Heading, StackDivider } from "@chakra-ui/react";
 
 const TileList = () => {
@@ -15,11 +11,13 @@ const TileList = () => {
   const [city, setCity] = useState([]);
   const [list, setList] = useState([]);
 
+  // API request
   const URL = `http://api.openweathermap.org/data/2.5/forecast?q=${query}&appid=01449de77e3668d9b85822879d4b13f1&units=metric&cnt=40`;
 
   const current = new Date();
   const hourAsString = current.getHours();
 
+  // filter results according to +/- 2 hours of current time
   const result = list.filter((item) => {
     const string = item.dt_txt;
     const time = string.substring(11, 13);
@@ -31,6 +29,7 @@ const TileList = () => {
     }
   });
 
+  // fetch JSON data from URL
   useEffect(() => {
     fetch(URL)
       .then((res) => {
@@ -43,6 +42,7 @@ const TileList = () => {
       });
   }, [query]);
 
+  // button function
   const confirmSelection = () => {
     setQuery(document.getElementById("city").value);
   };
@@ -54,12 +54,13 @@ const TileList = () => {
         spacing={10}
         align="stretch"
       >
-        <Box>
+        <Box id="citySelect">
           <HStack spacing="24px">
             <Box>
-              <h2> Select city: &nbsp; </h2>
+              <h2> Select City: &nbsp; </h2>
             </Box>
             <Box>
+              {/* Dropdown menu for city selection */}
               <Select variant="filled" name="city" id="city">
                 {cities.map((city) => {
                   return (
@@ -71,11 +72,7 @@ const TileList = () => {
               </Select>
             </Box>
             <Box w="40px" h="40px" bg="pink.100">
-              <Button
-                colorScheme="teal"
-                // variant="outline"
-                onClick={() => confirmSelection()}
-              >
+              <Button colorScheme="teal" onClick={() => confirmSelection()}>
                 Confirm
               </Button>
             </Box>
@@ -87,6 +84,7 @@ const TileList = () => {
           </div>
         </Box>
         <Box>
+          {/* Grid for weather cards */}
           <SimpleGrid columns={5} spacing={20}>
             {result.map((day) => {
               return <Tile key={day.dt} day={day} />;
