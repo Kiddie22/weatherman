@@ -5,11 +5,13 @@ import { cities } from "../cities";
 import { Box, Button, Select } from "@chakra-ui/react";
 import { HStack, VStack, SimpleGrid } from "@chakra-ui/react";
 import { Heading, StackDivider } from "@chakra-ui/react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 const TileList = () => {
   const [query, setQuery] = useState("western province");
   const [city, setCity] = useState([]);
   const [list, setList] = useState([]);
+  const [dailyResult, setDailyResult] = useState([]);
 
   // API request
   const URL = `http://api.openweathermap.org/data/2.5/forecast?q=${query}&appid=01449de77e3668d9b85822879d4b13f1&units=metric&cnt=40`;
@@ -29,7 +31,18 @@ const TileList = () => {
     }
   });
 
-  // fetch JSON data from URL
+  // filter results to get tiles of the date clicked
+  const setDailyTiles = (date) => {
+    let tempArray = list.filter((item) => {
+      const string = item.dt_txt;
+      const day = string.substring(0, 10);
+      if (date == day) {
+        return item;
+      }
+    });
+    setDailyResult(tempArray);
+  };
+
   useEffect(() => {
     fetch(URL)
       .then((res) => {
@@ -83,14 +96,39 @@ const TileList = () => {
             <Heading>{city.name}</Heading>
           </div>
         </Box>
-        <Box>
-          {/* Grid for weather cards */}
-          <SimpleGrid columns={5} spacing={20}>
-            {result.map((day) => {
-              return <Tile key={day.dt} day={day} />;
-            })}
-          </SimpleGrid>
-        </Box>
+
+        <Tabs isFitted variant="enclosed">
+          <TabList>
+            <SimpleGrid columns={5} spacing={20}>
+              {result.map((day) => {
+                return (
+                  <Tab>
+                    <Tile
+                      key={day.dt}
+                      day={day}
+                      setDailyTiles={setDailyTiles}
+                    />
+                  </Tab>
+                );
+              })}
+            </SimpleGrid>
+          </TabList>
+          <hr />
+          <hr />
+          <hr />
+
+          <TabList>
+            <SimpleGrid columns={5} spacing={20}>
+              {dailyResult.map((day) => {
+                return (
+                  <Tab>
+                    <Tile key={day.dt} day={day} />
+                  </Tab>
+                );
+              })}
+            </SimpleGrid>
+          </TabList>
+        </Tabs>
       </VStack>
     </React.Fragment>
   );
