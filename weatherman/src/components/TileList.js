@@ -5,7 +5,7 @@ import { cities } from "../cities";
 import { Box, Button, Select } from "@chakra-ui/react";
 import { HStack, VStack, SimpleGrid } from "@chakra-ui/react";
 import { Heading, StackDivider } from "@chakra-ui/react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Tabs, TabList, Tab } from "@chakra-ui/react";
 
 const TileList = () => {
   const [query, setQuery] = useState("western province");
@@ -36,7 +36,12 @@ const TileList = () => {
     let tempArray = list.filter((item) => {
       const string = item.dt_txt;
       const day = string.substring(0, 10);
-      if (date == day) {
+      const time = string.substring(11, 13);
+      if (
+        date == day &&
+        hourAsString - parseInt(time) > -6 &&
+        hourAsString - parseInt(time) < 6
+      ) {
         return item;
       }
     });
@@ -69,9 +74,7 @@ const TileList = () => {
       >
         <Box id="citySelect">
           <HStack spacing="24px">
-            <Box>
-              <h2> Select City: &nbsp; </h2>
-            </Box>
+            <h2> Select City : &nbsp; </h2>
             <Box>
               {/* Dropdown menu for city selection */}
               <Select variant="filled" name="city" id="city">
@@ -84,11 +87,10 @@ const TileList = () => {
                 })}
               </Select>
             </Box>
-            <Box w="40px" h="40px" bg="pink.100">
-              <Button colorScheme="teal" onClick={() => confirmSelection()}>
-                Confirm
-              </Button>
-            </Box>
+            {/* Confirm city selection button */}
+            <Button colorScheme="teal" onClick={() => confirmSelection()}>
+              Confirm
+            </Button>
           </HStack>
         </Box>
         <Box>
@@ -98,36 +100,30 @@ const TileList = () => {
         </Box>
 
         <Tabs isFitted variant="enclosed">
-          <TabList>
-            <SimpleGrid columns={5} spacing={20}>
-              {result.map((day) => {
-                return (
-                  <Tab>
-                    <Tile
-                      key={day.dt}
-                      day={day}
-                      setDailyTiles={setDailyTiles}
-                    />
-                  </Tab>
-                );
-              })}
-            </SimpleGrid>
-          </TabList>
-          <hr />
-          <hr />
-          <hr />
+          {/* <TabList> */}
+          <SimpleGrid columns={5}>
+            {result.map((day) => {
+              return (
+                <Tab>
+                  <Tile key={day.dt} day={day} setDailyTiles={setDailyTiles} />
+                </Tab>
+              );
+            })}
+          </SimpleGrid>
+          {/* </TabList> */}
 
-          <TabList>
-            <SimpleGrid columns={5} spacing={20}>
-              {dailyResult.map((day) => {
-                return (
-                  <Tab>
-                    <Tile key={day.dt} day={day} />
-                  </Tab>
-                );
-              })}
-            </SimpleGrid>
-          </TabList>
+          {/* Detailed tiles for a day */}
+          {/* <TabList> */}
+          <SimpleGrid columns={4}>
+            {dailyResult.map((day) => {
+              return (
+                <Tab>
+                  <Tile key={day.dt} day={day} setDailyTiles={setDailyTiles} />
+                </Tab>
+              );
+            })}
+          </SimpleGrid>
+          {/* </TabList> */}
         </Tabs>
       </VStack>
     </React.Fragment>
