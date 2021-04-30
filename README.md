@@ -1,5 +1,5 @@
 # Weatherman
-[![CodeFactor](https://www.codefactor.io/repository/github/kiddie22/weatherman/badge)](https://www.codefactor.io/repository/github/kiddie22/weatherman) 
+[![CodeFactor](https://www.codefactor.io/repository/github/kiddie22/weatherman/badge)](https://www.codefactor.io/repository/github/kiddie22/weatherman) \
 An introductory application to practice using React.js and its features. 
 
 Weaatherman is a simple site which obtains weather prediction data from https://openweathermap.org and displays them on cards. \
