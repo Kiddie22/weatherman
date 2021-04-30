@@ -5,7 +5,7 @@ import { cities } from "../cities";
 import { Box, Button, Select } from "@chakra-ui/react";
 import { HStack, VStack, SimpleGrid } from "@chakra-ui/react";
 import { Heading, StackDivider } from "@chakra-ui/react";
-import { Tabs, TabList, Tab } from "@chakra-ui/react";
+import { Tabs, Tab } from "@chakra-ui/react";
 
 const TileList = () => {
   const [query, setQuery] = useState("western province");
@@ -38,7 +38,7 @@ const TileList = () => {
       const day = string.substring(0, 10);
       const time = string.substring(11, 13);
       if (
-        date == day &&
+        date === day &&
         hourAsString - parseInt(time) > -6 &&
         hourAsString - parseInt(time) < 6
       ) {
